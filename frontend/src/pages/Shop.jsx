@@ -1,6 +1,7 @@
 
 import { useState, useEffect } from 'react';
 
+import { toast } from 'react-toastify';
 import { getBooks, searchBooks, getCategories } from '../api';
 import { useCart } from '../context/CartContext';
 
@@ -22,6 +23,7 @@ const Shop = () => {
                 setCategories(['All', ...res.data]);
             } catch {
                 setCategories(['All']);
+                toast.error('Failed to fetch categories.');
             }
         };
         fetchCategories();
@@ -43,6 +45,7 @@ const Shop = () => {
                 }
             } catch {
                 setBooks([]);
+                toast.error('Failed to fetch books.');
             }
             setLoading(false);
         };
@@ -50,6 +53,11 @@ const Shop = () => {
     }, [selected, search]);
 
     const { addToCart } = useCart();
+
+    const handleAddToCart = (book) => {
+        addToCart(book);
+        toast.success(`${book.title} added to cart!`);
+    };
 
     return (
         <div className="bg-gray-100 min-h-[60vh] py-10 px-4">
@@ -84,7 +92,7 @@ const Shop = () => {
                 ) : (
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
                         {books.map(book => (
-                            <div key={book.id} className="bg-brown-700 rounded-lg shadow p-4 flex flex-col items-center">
+                            <div key={book.id} className="bg-amber-900 rounded-lg shadow p-4 flex flex-col items-center">
                                 <div className="w-32 h-44 bg-gray-100 rounded mb-4 flex items-center justify-center overflow-hidden">
                                     {book.image_url ? (
                                         <img src={book.image_url} alt={book.title} className="object-cover w-full h-full" />
@@ -94,8 +102,8 @@ const Shop = () => {
                                 </div>
                                 <div className="text-white font-bold mb-1">{book.title}</div>
                                 <div className="text-sienna-500 text-sm mb-2">by {book.author}</div>
-                                <div className="text-amber-200 font-semibold mb-2">${Number(book.price).toFixed(2)}</div>
-                                <button onClick={() => addToCart(book)} className="bg-sienna-500 bg-amber-900 text-amber-100 px-3 py-1 rounded font-semibold text-sm hover:bg-brown-900 hover:text-amber-300 transition duration-300 ease-in-out transform hover:scale-105 animate-fadein">Add to Cart</button>
+                                <div className="text-gray-500 font-semibold mb-2">${Number(book.price).toFixed(2)}</div>
+                                <button onClick={() => handleAddToCart(book)} className="bg-amber-700 text-amber-100 px-3 py-1 rounded font-semibold text-sm hover:bg-brown-900 hover:text-amber-300 transition duration-300 ease-in-out transform hover:scale-105 animate-fadein">Add to Cart</button>
                             </div>
                         ))}
                     </div>

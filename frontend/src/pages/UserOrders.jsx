@@ -1,15 +1,10 @@
 import { useEffect, useState } from 'react';
 import { getOrders, deleteOrder, updateOrder } from '../api';
+import { toast } from 'react-toastify';
 
 const UserOrders = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [message, setMessage] = useState('');
-const uniqueId = Math.random().toString(36).substring(2, 15);
-//generate unique id for each item
- const eachItmenRandomId = () => {
-    return Math.random().toString(36).substring(2, 15);
-  };
   useEffect(() => {
     const fetchOrders = async () => {
       setLoading(true);
@@ -17,47 +12,47 @@ const uniqueId = Math.random().toString(36).substring(2, 15);
         const res = await getOrders();
         setOrders(res.data);
       } catch {
+        toast.error('Failed to fetch orders.');
         setOrders([]);
       }
       setLoading(false);
     };
     fetchOrders();
-  }, [message]);
+  }, []);
 
   const handleDelete = async (id) => {
-    setMessage('');
     try {
       await deleteOrder(id);
-      setMessage('Order deleted successfully.');
+      toast.success('Order deleted successfully.');
+      setOrders(prevOrders => prevOrders.filter(order => order.id !== id));
     } catch (err) {
-      setMessage(err.response?.data?.message || 'Failed to delete order.');
+      toast.error(err.response?.data?.message || 'Failed to delete order.');
     }
   };
 
   const handleConfirm = async (id) => {
-    setMessage('');
     try {
       await updateOrder(id, { status: 'delivered' });
-      setMessage('Order confirmed as received.');
+      toast.success('Order confirmed as received.');
+      setOrders(prevOrders => prevOrders.map(o => o.id === id ? { ...o, status: 'delivered' } : o));
     } catch (err) {
-      setMessage(err.response?.data?.message || 'Failed to confirm order.');
+      toast.error(err.response?.data?.message || 'Failed to confirm order.');
     }
   };
 
   const handleReturn = async (id) => {
-    setMessage('');
     try {
       await updateOrder(id, { status: 'returned' });
-      setMessage('Order marked as returned.');
+      toast.success('Order marked as returned.');
+      setOrders(prevOrders => prevOrders.map(o => o.id === id ? { ...o, status: 'returned' } : o));
     } catch (err) {
-      setMessage(err.response?.data?.message || 'Failed to return order.');
+      toast.error(err.response?.data?.message || 'Failed to return order.');
     }
   };
 
   return (
     <div className="max-w-4xl mx-auto p-8">
       <h2 className="text-2xl font-bold mb-6">My Orders</h2>
-      {message && <div className="mb-4 text-blue-600">{message}</div>}
       {loading ? (
         <div>Loading...</div>
       ) : orders.length === 0 ? (
@@ -75,7 +70,7 @@ const uniqueId = Math.random().toString(36).substring(2, 15);
           <tbody>
             {orders.map(order => (
               <tr key={order.id} className="border-t">
-                <td className="p-2">{eachItmenRandomId()}</td>
+                <td className="p-2">{order.id}</td>
                 <td className="p-2">{order.status}</td>
                 <td className="p-2">${Number(order.total).toFixed(2)}</td>
                 <td className="p-2 flex gap-2">

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { getOrders, confirmOrder, deleteOrder } from '../../api';
+import { getOrders, updateOrder, deleteOrder } from '../../api';
+import { toast } from 'react-toastify';
 
 const Orders = () => {
     const [orders, setOrders] = useState([]);
@@ -11,6 +12,7 @@ const Orders = () => {
         try {
             const res = await getOrders();
             setOrders(res.data);
+            setError('');
         } catch {
             setError('Failed to fetch orders');
         }
@@ -22,14 +24,24 @@ const Orders = () => {
     }, []);
 
     const handleConfirm = async (id) => {
-        await confirmOrder(id);
-        fetchOrders();
+        try {
+            await updateOrder(id, { status: 'confirmed' });
+            toast.success(`Order #${id} has been confirmed.`);
+            setOrders(prev => prev.map(o => o.id === id ? { ...o, status: 'confirmed' } : o));
+        } catch (err) {
+            toast.error(err.response?.data?.message || 'Failed to confirm order.');
+        }
     };
 
     const handleDelete = async (id) => {
         if (!window.confirm('Delete this order?')) return;
-        await deleteOrder(id);
-        fetchOrders();
+        try {
+            await deleteOrder(id);
+            toast.success(`Order #${id} has been deleted.`);
+            setOrders(prev => prev.filter(o => o.id !== id));
+        } catch (err) {
+            toast.error(err.response?.data?.message || 'Failed to delete order.');
+        }
     };
 
     if (loading) return <div>Loading...</div>;

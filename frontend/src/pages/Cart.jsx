@@ -2,6 +2,7 @@
 import { useCart } from '../context/CartContext';
 import { useNavigate } from 'react-router-dom';
 import { createOrder } from '../api';
+import { toast } from 'react-toastify';
 import { useState } from 'react';
 
 const Cart = () => {
@@ -25,7 +26,7 @@ const Cart = () => {
             clearCart();
             navigate(`/checkout?orderId=${res.data.orderId}`);
         } catch (err) {
-            alert('Failed to create order.');
+            toast.error('Failed to create order.');
         } finally {
             setLoading(false);
         }

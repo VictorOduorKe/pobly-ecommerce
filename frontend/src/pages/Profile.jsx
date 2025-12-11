@@ -1,30 +1,20 @@
-import { useEffect, useState } from 'react';
-import { getProfile, logout } from '../api';
+import { useAuth } from '../context/AuthContext';
+import { Navigate } from 'react-router-dom';
 
 const Profile = () => {
-    const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const { user, isAuthenticated, isLoading } = useAuth();
 
-    useEffect(() => {
-        const fetchProfile = async () => {
-            try {
-                const res = await getProfile();
-                setUser(res.data);
-            } catch {
-                setUser(null);
-            }
-            setLoading(false);
-        };
-        fetchProfile();
-    }, []);
+    if (isLoading) {
+        return <div className="p-8 text-center">Loading profile...</div>;
+    }
 
-    const handleLogout = async () => {
-        await logout();
-        window.location.href = '/login';
-    };
+    if (!isAuthenticated) {
+        return <Navigate to="/login" replace />;
+    }
 
-    if (loading) return <div>Loading...</div>;
-    if (!user) return <div>Not logged in.</div>;
+    if (!user) {
+        return <div className="p-8 text-center">Could not load user profile.</div>;
+    }
 
     return (
         <div className="max-w-md mx-auto bg-white rounded-lg shadow p-8 mt-8">
@@ -32,7 +22,6 @@ const Profile = () => {
             <div className="mb-2"><strong>Name:</strong> {user.name}</div>
             <div className="mb-2"><strong>Email:</strong> {user.email}</div>
             <div className="mb-2"><strong>Role:</strong> {user.role}</div>
-            <button onClick={handleLogout} className="mt-4 bg-sienna-500 text-amber-100 px-4 py-2 rounded font-bold hover:bg-brown-900 hover:text-amber-300 transition">Logout</button>
         </div>
     );
 };
