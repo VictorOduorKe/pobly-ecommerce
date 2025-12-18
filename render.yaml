@@ -1,9 +1,10 @@
 services:
-  - type: static_site # Changed from 'static'
+  - type: web
     name: pobly-ecommerce-frontend
+    env: static  # Using 'web' with 'env: static' is the alternative for static sites
     rootDir: frontend
     buildCommand: pnpm install && pnpm run build
-    staticPublishPath: frontend/dist # Ensure this points to the correct build folder
+    staticPublishPath: dist
     routes:
       - type: rewrite
         source: /*
@@ -11,7 +12,7 @@ services:
 
   - type: web
     name: pobly-ecommerce-backend
-    runtime: node # Use 'runtime' instead of 'env' for the current Blueprint spec
+    env: node
     plan: free
     rootDir: backend
     buildCommand: pnpm install
