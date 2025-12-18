@@ -1,5 +1,5 @@
 services:
-  - type: Static Site
+  - type: static
     name: pobly-ecommerce-frontend
     rootDir: frontend
     buildCommand: pnpm install && pnpm run build
@@ -9,13 +9,9 @@ services:
         source: /*
         destination: /index.html
 
-  - type: Web Service
+  - type: web
     name: pobly-ecommerce-backend
     env: node
     plan: free
     rootDir: backend
-    buildCommand: pnpm install
-    startCommand: node server.js
-    envVars:
-      - key: NODE_VERSION
-        value: 20
+    buildCommand: pnpm
