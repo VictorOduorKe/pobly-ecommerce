@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import { useState } from 'react';
 
 const Cart = () => {
-    const { cartItems, removeFromCart, clearCart } = useCart();
+    const { cartItems, removeFromCart, updateQty, clearCart } = useCart();
     const total = cartItems.reduce((sum, item) => sum + item.price * item.qty, 0);
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
@@ -26,7 +26,10 @@ const Cart = () => {
             clearCart();
             navigate(`/checkout?orderId=${res.data.orderId}`);
         } catch (err) {
-            toast.error('Failed to create order.');
+            toast.error('Failed to create order. Login first');
+            setTimeout(() => {
+                navigate('/login');
+            }, 3000);
         } finally {
             setLoading(false);
         }
@@ -48,7 +51,22 @@ const Cart = () => {
                                     </div>
                                     <div className="flex items-center gap-4">
                                         <span className="font-semibold text-brown-900">${Number(item.price).toFixed(2)}</span>
-                                        <span className="text-brown-700">x{item.qty}</span>
+                                        <div className="flex items-center gap-2 border border-brown-200 rounded-lg px-2 py-1">
+                                            <button
+                                                onClick={() => updateQty(item.id, item.qty - 1)}
+                                                disabled={item.qty <= 1}
+                                                className="w-6 h-6 flex items-center justify-center text-brown-700 hover:text-sienna-500 disabled:opacity-30 disabled:hover:text-brown-700 transition"
+                                            >
+                                                -
+                                            </button>
+                                            <span className="text-brown-900 font-medium min-w-[1.2rem] text-center">{item.qty}</span>
+                                            <button
+                                                onClick={() => updateQty(item.id, item.qty + 1)}
+                                                className="w-6 h-6 flex items-center justify-center text-brown-700 hover:text-sienna-500 transition"
+                                            >
+                                                +
+                                            </button>
+                                        </div>
                                         <button onClick={() => removeFromCart(item.id)} className="text-red-500 hover:underline text-sm transition duration-300 ease-in-out transform hover:scale-105 animate-fadein">Remove</button>
                                     </div>
                                 </li>

@@ -19,7 +19,7 @@ const Navbar = () => {
                 <div className="flex justify-between items-center h-16">
                     <div className="flex items-center space-x-7">
                         <Link to="/" className="flex items-center py-2 px-2">
-                        <img src={logo} alt="Pobly Logo" className="h-10 w-10 mr-2" />
+                            <img src={logo} alt="Pobly Logo" className="h-10 w-10 mr-2" />
                             <span className="font-bold text-brown-900 text-xl font-serif">Pobly</span>
                         </Link>
                         <div className="hidden md:flex items-center space-x-1" onClick={() => setIsMobileMenuOpen(false)}>
@@ -45,7 +45,7 @@ const Navbar = () => {
                             {isAuthenticated ? (
                                 <>
                                     <Link to="/profile" className="py-2 px-3 font-medium text-brown-700 rounded hover:text-sienna-500 transition duration-300"><FontAwesomeIcon icon={faUser} size="lg" /></Link>
-                                    <button onClick={logout} className="py-2 px-3 text-white bg-amber-900 font-medium bg-sienna-500 rounded hover:bg-brown-900 transition duration-300">Logout</button>
+                                    <button onClick={logout} className="py-2 px-3 text-white font-medium bg-sienna-500 rounded hover:bg-brown-900 transition duration-300">Logout</button>
                                 </>
                             ) : (
                                 <Link to="/login" className="py-2 px-3 font-medium text-brown-700 rounded hover:bg-amber-100 transition duration-300">Log In</Link>

@@ -15,3 +15,4 @@ yarn-error.log*
 pnpm-debug.log*
 /.idea
 *.iml
+/backend/test-db.js

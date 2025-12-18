@@ -39,7 +39,7 @@ export const Landing = () => {
                 style={{ backgroundImage: `url(${backgroundImg})` }}
             >
                 {/* ... other JSX content ... */}
-                <div className="absolute inset-0 bg-linear-to-br from-brown-900/90 to-brown-700/80 z-0" />
+                <div className="absolute inset-0 bg-gradient-to-br from-brown-900/40 to-brown-700/40 z-0" />
                 <div className="relative z-20 mb-4 px-4">
                     <button className="bg-amber-900 text-white px-8 py-4 rounded-full font-semibold text-lg shadow-lg hover:bg-amber-700 hover:text-sienna-500 transition duration-300 ease-in-out transform hover:scale-105 animate-fadein">
                         Big Stories

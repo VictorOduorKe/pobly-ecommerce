@@ -8,37 +8,37 @@ const api = axios.create({
 });
 
 // Auth
-export const register = (data) => api.post('/auth/register', data);
-export const login = (data) => api.post('/auth/login', data);
-export const logout = () => api.post('/auth/logout');
+export const register = (data) => api.post('/api/auth/register', data);
+export const login = (data) => api.post('/api/auth/login', data);
+export const logout = () => api.post('/api/auth/logout');
 
 // User
-export const getProfile = () => api.get('/users/profile');
-export const updateProfile = (data) => api.put('/users/profile', data);
-export const requestPasswordReset = (data) => api.post('/users/request-password-reset', data);
-export const resetPassword = (data) => api.post('/users/reset-password', data);
+export const getProfile = () => api.get('/api/users/profile');
+export const updateProfile = (data) => api.put('/api/	users/profile', data);
+export const requestPasswordReset = (data) => api.post('/api/users/request-password-reset', data);
+export const resetPassword = (data) => api.post('/api/users/reset-password', data);
 
 // Books
-export const getBooks = () => api.get('/books');
-export const searchBooks = (params) => api.get('/books/search', { params });
-export const getCategories = () => api.get('/books/categories');
-export const addBook = (data) => api.post('/books', data);
-export const editBook = (id, data) => api.put(`/books/${id}`, data);
-export const deleteBook = (id) => api.delete(`/books/${id}`);
+export const getBooks = () => api.get('/api/books');
+export const searchBooks = (params) => api.get('/api/books/search', { params });
+export const getCategories = () => api.get('/api/books/categories');
+export const addBook = (data) => api.post('/api/books', data);
+export const editBook = (id, data) => api.put(`/api/books/${id}`, data);
+export const deleteBook = (id) => api.delete(`/api/books/${id}`);
 
 // Orders
-export const getOrders = () => api.get('/orders');
-export const createOrder = (data) => api.post('/orders', data);
-export const updateOrder = (id, data) => api.put(`/orders/${id}`, data);
-export const confirmOrder = (id) => api.put(`/orders/${id}/confirm`);
-export const deleteOrder = (id) => api.delete(`/orders/${id}`);
+export const getOrders = () => api.get('/api/orders');
+export const createOrder = (data) => api.post('/api/orders', data);
+export const updateOrder = (id, data) => api.put(`/api/orders/${id}`, data);
+export const confirmOrder = (id) => api.put(`/api/orders/${id}/confirm`);
+export const deleteOrder = (id) => api.delete(`/api/orders/${id}`);
 
 // Admin
-export const getDashboard = () => api.get('/admin/dashboard');
-export const getSalesTrends = () => api.get('/admin/sales');
-export const getAllUsers = () => api.get('/admin/users');
-export const deleteUser = (id) => api.delete(`/admin/users/${id}`);
-export const getTopBooks = () => api.get('/admin/analytics/top-books');
-export const getRevenueByCategory = () => api.get('/admin/analytics/revenue-category');
+export const getDashboard = () => api.get('/api/admin/dashboard');
+export const getSalesTrends = () => api.get('/api/admin/sales');
+export const getAllUsers = () => api.get('/api/admin/users');
+export const deleteUser = (id) => api.delete(`/api/admin/users/${id}`);
+export const getTopBooks = () => api.get('/api/admin/analytics/top-books');
+export const getRevenueByCategory = () => api.get('/api/admin/analytics/revenue-category');
 
 export default api;

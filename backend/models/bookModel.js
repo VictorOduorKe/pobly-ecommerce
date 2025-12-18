@@ -1,1 +1,0 @@
-// Book model queries

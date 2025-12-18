@@ -1,1 +1,11 @@
 @import "tailwindcss";
+
+@theme {
+  --color-brown-900: #3B2C23;
+  --color-brown-700: #6B4F3A;
+  --color-brown-500: #A67C52;
+  --color-sienna-500: #A0522D;
+  --color-amber-300: #FFD580;
+  --color-amber-500: #FFB300;
+  --color-amber-900: #451a03;
+}
